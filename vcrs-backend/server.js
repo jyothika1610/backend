@@ -13,8 +13,22 @@ const app = express();
 
 // --- Middleware (Applied Immediately) ---
 
-// CORS for frontend communication
-app.use(cors()); 
+// Define the allowed origins (Netlify frontend URL and Render API URL)
+const allowedOrigins = [
+    // 1. The live Netlify URL where the frontend is hosted (REQUIRED for external access)
+    // *** REPLACE WITH YOUR ACTUAL NETLIFY URL ***
+    'https://your-netlify-site-name.netlify.app', 
+    
+    // 2. The live Render URL (sometimes needed for internal redirects or same-site policy)
+    'https://vcrs-api.onrender.com' 
+];
+
+// CORS for frontend communication (Explicitly define origins and allow credentials)
+app.use(cors({
+    origin: allowedOrigins,
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    credentials: true,
+})); 
 
 // Body parser (CRUCIAL for reading JSON req.body)
 app.use(express.json({ extended: false }));
